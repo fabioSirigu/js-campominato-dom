@@ -15,9 +15,7 @@ playButton.addEventListener('click', function(){
       generateGrid(gridContainer, cellNumber);  
 });
 
-// genero le bombe
 const bombs = generateBomb(1, level);
-// -log in console i numeri random
 console.log(bombs, 'questo è l array');
 
 function generateGrid (where, howMany){
@@ -34,9 +32,9 @@ function generateGrid (where, howMany){
                   cellElement.style.width = 'calc(100% / 7)';
             }
       }
-
+      
       const cell = document.querySelectorAll('.cell');
-      let counter = 0
+      const counter = 0
       for (let i = 0; i < cell.length; i++){
             const singleCell = cell[i];
             
@@ -45,17 +43,22 @@ function generateGrid (where, howMany){
                   console.log(cellNumber);
                   
                   singleCell.classList.add('background');
-                  bombOrNot(cellNumber, singleCell)
+                  bombOrNot(bombs, cellNumber, singleCell)
                   
-                  counter += 1;
-                  const displayCount = document.querySelector('.counter');
-                  displayCount.innerHTML = counter;
+                  counterClick(counter);
             })
       }   
 }
-function bombOrNot(number, position){
-      for (let i = 0; i < bombs.length; i++) {
-            const bomb = bombs[i];
+
+function counterClick(number){
+      number += 1;
+      const displayCount = document.querySelector('.counter');
+      displayCount.innerHTML = number;
+}
+
+function bombOrNot(arrayBombs, number, position){
+      for (let i = 0; i < arrayBombs.length; i++) {
+            const bomb = arrayBombs[i];
             /* console.log(bomb, 'sei qui'); */
             if (number == bomb){
                   
@@ -64,19 +67,12 @@ function bombOrNot(number, position){
             }
       }
 }
-      
-
 
 function generateBomb(min, max){
-      // Il computer deve generare 16 numeri casuali nello stesso range della difficoltà prescelta: le bombe.
-      // - un array per le bombe
       const bombs = [];
-      // - un ciclo while (perchè non so quando dovrò interrompere il ciclo) per inserire con .push le bombe dentro il suo array
-      // scorro dentro bombs fino a quando non contiene 16 numeri
+      
       while (bombs.length !== 16) {
-            // richiamo la funzione per generare un numero random
             const bomb = randomBombs(min, max)
-            // se l'array NON include bomb allora aggiungo, altrimenti esco dal ciclo
             if (!bombs.includes(bomb)){
                   bombs.push(bomb);
             }
@@ -84,8 +80,6 @@ function generateBomb(min, max){
       return bombs
 }
 
-
-// - uso una funzione per generare il numero random (uso una funzione per poterla richiamare all'occorrenza)
 function randomBombs(min, max) {
       return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
