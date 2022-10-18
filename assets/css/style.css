@@ -1,0 +1,37 @@
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+}
+
+.container_cells {
+      max-width: 1200px;
+      margin: auto;
+}
+
+.button_section {
+      display: flex;
+      justify-content: center;
+}
+
+.btn,
+.select_level {
+      margin: 1rem;
+}
+.grid {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+}
+.cell {
+      aspect-ratio: 1 / 1;
+      border: 1px solid;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+}
+
+.background {
+      background-color: aqua;
+}
