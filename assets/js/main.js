@@ -11,7 +11,8 @@ const level = document.querySelector('.form-select').value;
 
 playButton.addEventListener('click', function(){
       gridContainer.innerHTML= '';
-      generateGrid(gridContainer, level);  
+      const cellNumber = document.querySelector('.form-select').value;
+      generateGrid(gridContainer, cellNumber);  
 });
 
 
@@ -38,29 +39,37 @@ function generateGrid (where, howMany){
       // quando clicco la casella, aggiungo una classe per il colore (o cambio il colore dirett da JS)
       const cell = document.querySelectorAll('.cell');
       for (let i = 0; i < cell.length; i++){
-            const singleCell = cell[i]
+            const singleCell = cell[i];
+            
+            
+            let counter = 0
             singleCell.addEventListener('click', function () {
                   // se il valore di singleCell contiene un valore presente nell'array bombs allora cambio il background
                   const cellNumber = singleCell.innerHTML;
                   console.log(cellNumber);
                   
-                  singleCell.classList.toggle('background'); //uso toggle per mettere e rimuovere la classe al click
-                  console.log(`la cella è la numero ${singleCell.innerHTML}`); //.innerHTML mi stampa il contenuto della singleCell
-
+                  singleCell.classList.add('background'); //uso toggle per mettere e rimuovere la classe al click
+                  /* console.log(`la cella è la numero ${singleCell.innerHTML}`); //.innerHTML mi stampa il contenuto della singleCell */
+                  
                   // faccio un ciclo for per scorrere dentro bombs[] e prendere il suo valore da poter comparare con il valore di cellNumber
+                  // In seguito l'utente clicca su una cella: se il numero è presente nella lista dei numeri generati - abbiamo calpestato una bomba - la cella si colora di rosso e la partita termina. Altrimenti la cella cliccata si colora di azzurro e l'utente può continuare a cliccare sulle altre celle.
                   for (let i = 0; i < bombs.length; i++) {
                         const bomb = bombs[i];
-                        console.log(bomb, 'sei qui');
-                        
+                        /* console.log(bomb, 'sei qui'); */
                         if (cellNumber == bomb){
-                              singleCell.classList.toggle('explosion'); //uso toggle per mettere e rimuovere la classe al click
-                              console.log('è rosso');
+                              
+                              singleCell.classList.add('explosion'); //uso toggle per mettere e rimuovere la classe al click
+                              if(!alert('hai perso!')){window.location.reload();}
                         }
                   }
+                  counter += 1
+	            const displayCount = document.querySelector('.counter');
 
+                  displayCount.innerHTML = counter;
             })
       }   
 }
+
 
 
 
@@ -90,6 +99,7 @@ function randomBombs(min, max) {
 
 //nella stessa cella può essere posizionata al massimo una bomba, perciò nell’array delle bombe non potranno esserci due numeri uguali.
 
-// In seguito l'utente clicca su una cella: se il numero è presente nella lista dei numeri generati - abbiamo calpestato una bomba - la cella si colora di rosso e la partita termina. Altrimenti la cella cliccata si colora di azzurro e l'utente può continuare a cliccare sulle altre celle.
 //La partita termina quando il giocatore clicca su una bomba o quando raggiunge il numero massimo possibile di numeri consentiti (ovvero quando ha rivelato tutte le celle che non sono bombe).
+
+
 //Al termine della partita il software deve comunicare il punteggio, cioè il numero di volte che l’utente ha cliccato su una cella che non era una bomba. 
