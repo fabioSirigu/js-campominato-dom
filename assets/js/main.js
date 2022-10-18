@@ -15,9 +15,11 @@ playButton.addEventListener('click', function(){
       generateGrid(gridContainer, cellNumber);  
 });
 
+const displayCount = document.querySelector('.counter');
+let counter = 0;
+
 const bombs = generateBomb(1, level);
 console.log(bombs, 'questo è l array');
-
 function generateGrid (where, howMany){
       for (let i = 1; i <= howMany; i++) {
             const cellElement = document.createElement('div');
@@ -34,27 +36,30 @@ function generateGrid (where, howMany){
       }
       
       const cell = document.querySelectorAll('.cell');
-      const counter = 0
+      singleCellClick(cell);
+}
+
+function singleCellClick (cell){
       for (let i = 0; i < cell.length; i++){
             const singleCell = cell[i];
             
             singleCell.addEventListener('click', function () {
                   const cellNumber = singleCell.innerHTML;
-                  console.log(cellNumber);
-                  
-                  singleCell.classList.add('background');
+                  singleCell.classList.add('survived');
+
                   bombOrNot(bombs, cellNumber, singleCell)
                   
-                  counterClick(counter);
+                  counter += 1;
+                  const displayCount = document.querySelector('.counter');
+                  displayCount.innerHTML = counter;
+                  //counterClick(counter, displayCount);
             })
       }   
 }
-
-function counterClick(number){
+/* function counterClick(number, position){
       number += 1;
-      const displayCount = document.querySelector('.counter');
-      displayCount.innerHTML = number;
-}
+      position.innerHTML = number;
+} */
 
 function bombOrNot(arrayBombs, number, position){
       for (let i = 0; i < arrayBombs.length; i++) {
