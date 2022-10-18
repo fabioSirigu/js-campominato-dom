@@ -12,7 +12,8 @@ const level = document.querySelector('.form-select').value;
 playButton.addEventListener('click', function(){
       gridContainer.innerHTML= '';
       const cellNumber = document.querySelector('.form-select').value;
-      generateGrid(gridContainer, cellNumber);  
+      generateGrid(gridContainer, cellNumber);
+      displayCount.innerHTML = `` // i punteggi si sommano ai precedenti, bisogna refreshare la pagina    
 });
 
 const displayCount = document.querySelector('.counter');
@@ -20,6 +21,7 @@ let counter = 0;
 
 const bombs = generateBomb(1, level);
 console.log(bombs, 'questo è l array');
+
 function generateGrid (where, howMany){
       for (let i = 1; i <= howMany; i++) {
             const cellElement = document.createElement('div');
@@ -35,42 +37,79 @@ function generateGrid (where, howMany){
             }
       }
       
-      const cell = document.querySelectorAll('.cell');
-      singleCellClick(cell);
+      const allCell = document.querySelectorAll('.cell');
+      
+      for (let i = 0; i < allCell.length; i++) {
+            const singleCell = allCell[i];
+            
+            singleCell.addEventListener('click', function () {
+                  bombOrNot(bombs, singleCell, allCell);
+            });
+            
+      }
+      
 }
 
-function singleCellClick (cell){
+function bombOrNot(array, singleCell, allCell) {
+      if (array.includes(Number(singleCell.textContent))){
+            const displayCount = document.querySelector('.counter');
+            for (let i = 0; i < allCell.length; i++) {
+                  const singleCell = allCell[i];
+                  singleCell.style.pointerEvents = 'none'; //questo mi rende non cliccabili le celle
+                  if (array.includes(Number(singleCell.textContent))){
+                        singleCell.classList.add('explosion');
+                        displayCount.innerHTML = `Hai perso! il tuo punteggio è ${counter}`;
+                  }
+            }
+      } else {
+            singleCell.classList.add("survived");
+            singleCell.style.pointerEvents = 'none'
+            
+            counter += 1;
+            if (counter === (Number(level - 16))) {
+                  const displayCount = document.querySelector('.counter');
+                  displayCount.innerHTML = `Hai vinto! il tuo punteggio è ${counter}`;
+            }
+            displayCount.innerHTML = `il tuo punteggio è ${counter}`;
+      } 
+      
+}
+
+/* ****PRIMA VERSIONE DELLA FUNZIONE *** */
+/* function bombOrNot(arrayBombs, number, position){
+      for (let i = 0; i < arrayBombs.length; i++) {
+            const bomb = arrayBombs[i];
+            // console.log(bomb, 'sei qui');
+            if (number == bomb){
+                  position.classList.add('explosion');
+                  console.log('Hai perso!', number -1, 'è il tuo punteggio!');
+                  
+            }
+      }
+} */
+
+/* *** PRIMA VERSIONE DELLA FUNZIONE CLICK *** */
+/* function singleCellClick (cell){
       for (let i = 0; i < cell.length; i++){
             const singleCell = cell[i];
             
             singleCell.addEventListener('click', function () {
                   const cellNumber = singleCell.innerHTML;
                   singleCell.classList.add('survived');
-
+                  
                   bombOrNot(bombs, cellNumber, singleCell)
                   
                   counter += 1;
                   const displayCount = document.querySelector('.counter');
                   displayCount.innerHTML = counter;
-                  //counterClick(counter, displayCount);
+                  
             })
       }   
-}
-/* function counterClick(number, position){
-      number += 1;
-      position.innerHTML = number;
 } */
 
-function bombOrNot(arrayBombs, number, position){
-      for (let i = 0; i < arrayBombs.length; i++) {
-            const bomb = arrayBombs[i];
-            /* console.log(bomb, 'sei qui'); */
-            if (number == bomb){
-                  
-                  position.classList.add('explosion'); //uso toggle per mettere e rimuovere la classe al click
-                  if(!alert('hai perso!')){window.location.reload();}
-            }
-      }
+function counterClick(number, position){
+      number += 1;
+      position.innerHTML = number;
 }
 
 function generateBomb(min, max){
