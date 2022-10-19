@@ -14,13 +14,14 @@ playButton.addEventListener('click', function(){
       const cellNumber = document.querySelector('.form-select').value;
       generateGrid(gridContainer, cellNumber);
       displayCount.innerHTML = `` // i punteggi si sommano ai precedenti, bisogna refreshare la pagina    
+      
 });
+const bombs = generateBomb(1, level);
+console.log(bombs, 'questo è l array');
 
 const displayCount = document.querySelector('.counter');
 let counter = 0;
 
-const bombs = generateBomb(1, level);
-console.log(bombs, 'questo è l array');
 
 function generateGrid (where, howMany){
       for (let i = 1; i <= howMany; i++) {
@@ -52,13 +53,13 @@ function generateGrid (where, howMany){
 
 function bombOrNot(array, singleCell, allCell) {
       if (array.includes(Number(singleCell.textContent))){
-            const displayCount = document.querySelector('.counter');
+            /* const displayCount = document.querySelector('.counter'); */
             for (let i = 0; i < allCell.length; i++) {
                   const singleCell = allCell[i];
                   singleCell.style.pointerEvents = 'none'; //questo mi rende non cliccabili le celle
                   if (array.includes(Number(singleCell.textContent))){
                         singleCell.classList.add('explosion');
-                        gridContainer.innerHTML = `Hai perso! il tuo punteggio è ${counter}`;
+                        displayCount.innerHTML = `Hai perso! il tuo punteggio è ${counter}`;
                   }
             }
       } else {
@@ -68,7 +69,7 @@ function bombOrNot(array, singleCell, allCell) {
             counter += 1;
             if (counter === (Number(level - 16))) {
                   /* const displayCount = document.querySelector('.counter'); */
-                  gridContainer.innerHTML = `Hai vinto! il tuo punteggio è ${counter}`;
+                  displayCount.innerHTML = `Hai vinto! il tuo punteggio è ${counter}`;
             }
       } 
       
