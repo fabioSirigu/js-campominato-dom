@@ -58,7 +58,7 @@ function bombOrNot(array, singleCell, allCell) {
                   singleCell.style.pointerEvents = 'none'; //questo mi rende non cliccabili le celle
                   if (array.includes(Number(singleCell.textContent))){
                         singleCell.classList.add('explosion');
-                        displayCount.innerHTML = `Hai perso! il tuo punteggio è ${counter}`;
+                        gridContainer.innerHTML = `Hai perso! il tuo punteggio è ${counter}`;
                   }
             }
       } else {
@@ -67,10 +67,9 @@ function bombOrNot(array, singleCell, allCell) {
             
             counter += 1;
             if (counter === (Number(level - 16))) {
-                  const displayCount = document.querySelector('.counter');
-                  displayCount.innerHTML = `Hai vinto! il tuo punteggio è ${counter}`;
+                  /* const displayCount = document.querySelector('.counter'); */
+                  gridContainer.innerHTML = `Hai vinto! il tuo punteggio è ${counter}`;
             }
-            displayCount.innerHTML = `il tuo punteggio è ${counter}`;
       } 
       
 }
